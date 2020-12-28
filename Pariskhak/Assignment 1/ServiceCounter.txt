@@ -1,0 +1,98 @@
+#include<iostream>
+using namespace std;
+class Queue
+{
+    private:
+        int front,rear,size;
+        int *store;
+    public:
+        Queue(int size)
+        {
+            front=rear=-1;
+            this->size=size;
+            store=new int[size];
+        }
+        ~Queue()    
+        {
+            delete[] store;
+        }
+        int isEmpty()
+        {
+            if((front==-1 && rear==-1) || (front>rear))
+            {
+                return 1;
+            }
+                return 0;
+        }
+        int isFull()
+        {
+                if(rear==(size-1))
+                {
+                    return 1;
+                }
+                    return 0;
+        }
+        void Enqueue(int x)
+        {
+            if(!isFull())
+            {
+                rear++;
+                store[rear]=x;
+                    if(front==-1)
+                    {
+                        front=0;
+                    }            
+            }
+        }
+        void Dequeue()
+        {
+            if(!isEmpty())
+            {
+                front++;
+                
+            }
+        }
+        int getcompare()
+        {
+            return front==rear;
+        }
+
+        void printremain()
+        {
+            cout<<(rear-front)<<" ";
+            do
+            {
+                front++;
+                cout<<store[front]<<" ";
+            }while(front!=rear);
+        }
+};
+
+int main()
+{
+    Queue s(10);
+    int Time=0,Ft,a;
+    cin>>Ft;
+    while(1)
+    {
+        cin>>a;
+        if(a==0 || (a>-1 && a<=Ft))
+        {
+            s.Enqueue(a);
+        }
+        if(a==-1)
+        {
+            break;
+        }
+       while(Time<=a)
+        {
+            if((Time+1)%3==0 && Time<=Ft && (!s.getcompare()) )
+            {
+                 s.Dequeue();
+             }
+               Time++;
+         }
+    }
+ s.printremain();
+ return 0;
+}

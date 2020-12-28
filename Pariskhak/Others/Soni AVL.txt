@@ -1,0 +1,187 @@
+# include <iostream>
+# include <math.h>
+
+using namespace std;
+
+class Node
+    {
+            private:
+                    int data;
+                    Node *left;
+                    Node *right;
+            public:
+                Node()
+                    {
+                        left = NULL;
+                        right = NULL;
+                    }
+                Node( int data)
+                    {
+                        this->data = data;
+                        left = NULL;
+                        right = NULL;
+                    }
+                void setData(int data)
+                    {
+                        this->data = data;
+                        left = right = NULL;
+                    }
+                int getData()
+                    {
+                        return data;
+                    }
+                void setLeft( Node* left)
+                    {
+                        this->left = left;
+                    }
+                void setRight( Node* right)
+                    {
+                        this->right = right;
+                    }
+                Node* getLeft()
+                    {
+                        return left;
+                    }
+                Node* getRight()
+                    {
+                        return right;
+                    }
+                   
+                   
+    };
+
+class BST
+    {
+        private:
+                Node* root;
+                int vioAVLcnt;
+        public:
+               
+                BST()
+                    {
+                        root = NULL;
+                        vioAVLcnt = 0;
+                    }
+               
+                Node* getRoot()
+                    {
+                        return this->root;
+                    }
+                int getvioAVL()
+                    {
+                        return vioAVLcnt;
+                    }
+                int height(Node *temp)
+                    {
+                        if(temp == NULL)
+                            {
+                                return 0;
+                            }
+                        return max(height( temp->getLeft() ), height( temp->getRight() )  ) + 1;
+                    }
+                Node* findAVL( Node* root)
+                    {
+                        if( root != NULL)
+                            {
+                                int bf = height(root->getLeft()) - height( root->getRight() );
+                                if(bf<0)
+                                    bf = -bf;
+                                if(bf > 1)
+                                    return  root;
+                                Node* node = findAVL(root->getLeft());
+                                if(node != NULL)
+                                    return node;
+                                node = findAVL(root->getRight());
+                                if(node != NULL)
+                                    return node;
+                            }
+                        return NULL;
+                    }
+                   
+                int AVLvio()
+                    {
+                        Node* node = findAVL(root);
+                       
+                        if(node == NULL)
+                            return 0;
+                        else
+                            return 1;
+                       
+                    }
+               
+                void insertData( int data)
+                    {
+                        Node* newnode = new Node(data);
+                        if(root == NULL)
+                            {
+                                root = newnode;
+                               // cout<<"1"<<endl;
+                            }
+                        else
+                            {
+                                Node* temp1;
+                                Node* temp2;
+                                temp1 = root;
+                                temp2 = NULL;
+                               
+                                while(temp1 != NULL)
+                                    {
+                                        temp2 = temp1;
+                                        if(data < temp1->getData())
+                                            temp1 = temp1->getLeft();
+                                        else if( data > temp1->getData())
+                                            temp1 = temp1->getRight();
+                                        else
+                                            {
+                                               // cout<<"Equal Data Not Allowed"<<endl;
+                                               break;
+                                               
+                                            }
+                                    }
+                                if(data < temp2->getData())
+                                    {
+                                        temp2->setLeft(newnode);
+                                        if(AVLvio())
+                                            {
+                                                vioAVLcnt++;
+                                                temp2->setLeft(NULL);
+                                                cout<<data<<" ";
+                                            }
+                                    }
+                                else if(data > temp2->getData())
+                                    {
+                                        temp2->setRight(newnode);
+                                        if(AVLvio())
+                                            {
+                                                vioAVLcnt++;
+                                                temp2->setRight(NULL);
+                                                cout<<data<<" ";
+                                            }
+                                    }
+                                else
+                                    return;
+                            }
+                    }
+                   
+       
+ 
+    };
+
+
+
+
+int main()
+    {
+        BST b1;
+        int cmd = 1;
+       
+        while(cmd != -1)
+            {
+                cin>>cmd;
+                if(cmd != -1)
+                    b1.insertData(cmd);
+            }
+        cout<<b1.getvioAVL()<<endl;
+       
+        return 0;
+    }

@@ -1,0 +1,202 @@
+#include<iostream>
+#include<cstring>
+using namespace std;
+class Node
+{
+    private:
+        char name[20];
+        int age;
+        Node *next;
+    public:
+        Node(const char* n,int a)
+        {
+            strcpy(name,n);
+            age=a;
+            next=NULL;
+            
+        }
+        string getName()
+        {
+            return name;
+        }
+        int getAge()
+        {
+            return age;
+        }
+        Node* getNext()
+        {
+            return next; 
+        }
+        void setNext(Node* n)
+        {
+            next=n;
+        }
+};
+    
+class Linklist
+{
+    private:
+        Node* head;
+
+    public:
+        Linklist()
+        {
+            head=NULL;
+        
+        }
+            
+        void compareinsert(const char* s,int a)
+        {  
+            Node* nd=new Node(s,a);
+          
+            if(head==NULL)
+                {
+                    head=nd;
+                }
+            else{
+                    
+                     Node *temp=head;
+                     Node *tb=temp;
+                       
+                        if(head->getAge() > nd->getAge())
+                        {
+                            nd->setNext(head);
+                            head=nd;
+                        }
+                        else{
+                                while(temp->getAge()<=nd->getAge())
+                                {
+                                    if(temp->getNext()==NULL)
+                                    {
+                                        tb=temp;
+                                        break;
+                                    }
+                                    tb=temp;
+                                    temp=temp->getNext();
+                                }
+                            nd->setNext(tb->getNext());
+                            tb->setNext(nd);
+                                       
+                        }
+            }
+        }
+    
+    /*  int linklistlen()
+        {
+            Node* temp=head;
+            int count=1;
+            if(head==NULL)
+            {
+                return 0;
+            }
+            while(temp->getNext()!=NULL)
+            {
+                temp=temp->getNext();
+                count++;
+            }
+            return count;
+            
+        }  */
+     int print(int x)
+     {
+         Node *temp=head;
+        if(head==NULL)
+        {
+            
+        }
+            
+        while(x>1)
+        {
+            if(temp->getNext()==NULL)
+            {
+                break;
+            }
+            
+            temp=temp->getNext();
+            x--;
+        }
+        if(x==1)
+        {
+            cout<<temp->getName()<<" "<<temp->getAge()<<endl;
+        }
+     }
+            
+        
+        
+        int Delete(int d)
+        {
+            Node* temp=head;
+            Node* tp=temp; 
+            if(head==NULL)
+            {
+               return 0;   
+            }
+            
+            else if(d==1)
+            { 
+                head=head->getNext();
+                delete temp;
+            }
+            else{
+            
+                while(d>1)
+                {
+                  if(temp->getNext()==NULL)
+                    break;
+                    tp=temp;
+                    temp=temp->getNext();
+                    d--;
+                }
+                if(d==1)
+                {
+                tp->setNext(temp->getNext());
+                delete temp;
+                }
+                
+       
+         }
+      }
+};
+
+int main()
+{
+    Linklist l;
+    
+    while(1)
+    {
+        string cmd;
+        char s[20];
+        int no,ag,d;
+        
+        cin>>cmd;
+        
+        if(cmd=="insert")
+        {   
+            cin>>s;
+            cin>>ag;
+            
+            l.compareinsert(s,ag);
+            continue;
+        }
+        
+               if(cmd=="remove")
+               {  
+                     cin>>no;
+                    l.Delete(no);
+                    continue;
+                }
+                if(cmd=="print")
+                {
+                     cin>>no;
+    
+                    l.print(no);
+                    continue;
+                }
+
+            if(cmd=="stop")
+            {
+                break;
+            }
+    }
+        return 0;
+}

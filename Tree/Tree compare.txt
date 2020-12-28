@@ -1,0 +1,164 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+class Node
+{
+    private:
+        int data;
+        Node* left;
+        Node* right;
+    public:
+        Node(int d)
+        {
+            this->data=d;
+            this->left=this->right=NULL;
+        }
+        int getdata()
+        {
+            return data;
+        }
+        Node* getleft()
+        {
+            return left;
+        }
+        Node* getright()
+        {
+            return right;
+        }
+        void setleft(Node* l)
+        {
+            left=l;
+        }
+        void setright(Node* r)
+        {
+            right=r;
+        }
+        
+};
+class Tree
+{
+    private:
+        Node* root;
+    public:
+        Tree()
+        {
+            this->root=NULL;
+        }
+        void insertT(int d)
+        {
+            Node* nd=new Node(d);
+            if(root==NULL)
+            {
+                root=nd;
+            }
+            else{
+                    Node* temp=root;
+                    while(1)
+                    {
+                        if(temp->getdata()>=d)
+                        {
+                            if(temp->getleft()==NULL)
+                            {
+                                temp->setleft(nd);
+                                break;
+                            }
+                            temp=temp->getleft();
+                            continue;
+                        }
+                        else{
+                                if(temp->getright()==NULL)
+                                {
+                                    temp->setright(nd);
+                                    break;
+                                }
+                                temp=temp->getright();
+                                continue;
+                        }
+                    }
+            }
+        }
+       int Depth(Node* temp)
+       {
+           if(temp==NULL)
+           {
+               return 0;
+           }
+           else{
+                int Ldepth=Depth(temp->getleft());
+                int Rdepth=Depth(temp->getright());
+                if(Ldepth > Rdepth)
+                {
+                    return (Ldepth+1);
+                }
+                else{
+                        return (Rdepth+1);
+                    }
+            }
+       }
+       Node* getroot()
+       {
+           return root;
+       }
+};
+
+int compare(Node *t,Node *t1)
+    {
+        if(t==NULL && t1==NULL)
+        {
+            return 1;
+        }
+        if(t!=NULL && t1!=NULL)
+        {
+            return (compare(t->getleft(),t1->getleft()) && compare(t->getright(),t1->getright()));
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+int main()
+{
+    Tree T;
+    int n,d;
+    cin>>n;
+    for(int i=1;i<=n;i++)
+    {
+        Tree T1;
+        while(1)
+        {
+            if(i==1)
+            {
+                cin>>d;
+               if(d==-1)
+               {
+                   break;
+               }
+                T.insertT(d);
+            }       
+            else{
+                    cin>>d;
+                    if(d==-1)
+                    {
+                        break;
+                    }
+                    T1.insertT(d);
+                }
+        }  
+            int diff=abs(T.Depth(T.getroot())-T1.Depth(T1.getroot()));
+            int c=compare(T.getroot(),T1.getroot());
+        
+            if(i>1)
+            {
+                 if(c==1)
+                    {
+                        cout<<"YES"<<" "<<diff<<endl;
+                    }
+                    else if(c==0)
+                    {
+                        cout<<"NO"<<" "<<diff<<endl;
+                    }   
+            }   
+    } 
+    return 0;    
+}

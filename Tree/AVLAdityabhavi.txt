@@ -1,0 +1,183 @@
+#include<iostream>
+#include<cstring>
+#include<stdlib.h>
+using namespace std;
+int num=0;
+class Node
+{
+   private:
+       int data;
+       Node *right;
+       Node *left;
+
+   public:
+       Node()
+       {
+           left = NULL;
+           right = NULL;
+       }
+       
+       Node(int data)
+       {
+           this->data = data;
+           left = NULL;
+           right = NULL;
+       }
+       
+       void print()
+       {
+           cout<<data<<"->";
+       }
+       
+       int getData()
+       {
+           return data;
+       }
+       
+       Node *getLeft()
+       {
+           return left;            
+       }
+       
+       Node *getRight()
+       {
+           return right;
+       }
+       
+       void setLeft(Node *left)
+       {
+           this->left = left;
+       }
+       
+       void setRight(Node *right)
+       {
+           this->right = right;
+       }
+};
+
+
+class BST
+{
+   private:
+       Node *root;
+       
+   public:
+       BST()
+       {
+           root = NULL;
+       }
+       
+       void insert(int data)
+       {
+           Node *node = new Node(data);
+           if(root == NULL)
+           {
+               root = node;
+           }
+           else
+           {
+               Node *temp = root;
+               Node *pre = NULL;
+               while(temp != NULL)
+               {
+                   pre = temp;
+                   if(data< temp->getData())
+                   {
+                       temp = temp->getLeft();
+                   }
+                   else
+                   {
+                       temp = temp->getRight();
+                       
+                   }
+               }
+               if(data< pre->getData())
+               {
+                   pre->setLeft(node);
+                   if(AVL())
+                   {
+                       num++;
+                       pre->setLeft(NULL);
+                       cout<<node->getData()<<" ";
+
+                   }
+               }
+               else if(data > pre->getData())
+               {
+                   pre->setRight(node);
+                   if(AVL())
+                   {
+                       num++;
+                       cout<<node->getData()<<" ";
+                       pre->setRight(NULL);
+                   }
+               }
+               else
+                 return;
+           }
+       }
+       
+       Node* findAVL(Node *root)
+       {
+           if(root != NULL)
+           {
+               int bf = height( root->getLeft())- height( root->getRight());
+               if(bf<0)
+                      bf= -bf;
+                     
+               if(bf>1)
+                     return root;
+                     
+               Node* node = findAVL(root->getLeft());
+               
+               if(node != NULL)
+                     return node;
+                     
+               node = findAVL(root->getRight());
+               
+               if(node != NULL)
+                     return node;
+           }
+           
+           return NULL;
+       }
+       
+       int AVL()
+       {
+            Node *node = findAVL(root);
+           
+            if(node == NULL)
+                 return 0;
+                 
+            else
+                 return 1;
+       }
+       
+       int height()
+       {
+           return height(root);    
+       }
+       
+       int height(Node *root)
+       {
+           if(root == NULL)
+               return 0;
+           return max( height( root->getLeft() ) , height( root->getRight() ) ) + 1;
+       }
+};
+
+
+
+int main()
+{
+   int i;
+   BST b;
+   while(i!=-1)
+   {
+       cin>>i;
+       if(i != -1)
+       b.insert(i);
+   }
+  cout<<num<<endl;
+   return 0;
+}

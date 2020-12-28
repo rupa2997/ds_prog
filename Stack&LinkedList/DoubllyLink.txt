@@ -1,0 +1,220 @@
+#include<iostream>
+using namespace std;
+class Node{
+private:
+    int data;
+    Node *next;
+    Node *prev;
+public:
+    Node(int data){
+        this->data = data;
+        prev = NULL;
+        next = NULL;
+    }
+    ~Node(){
+        prev = NULL;
+        next = NULL;
+    }
+    Node *getNext(){
+        return next;
+    }
+    Node *getPrev(){
+        return prev;
+    }
+    void setNext(Node *next){
+        this->next = next;
+    }
+    void setPrev(Node *prev){
+        this->prev = prev;
+    }
+    int getData(){
+        return data;
+    }
+};
+
+class DList{
+
+private:
+    Node *head;
+public:
+    DList(){
+        head = NULL;
+    }
+    ~DList(){
+        head = NULL;
+    }
+    void insertBegin(int data){
+        Node *node = new Node(data);
+        if(head == NULL){
+            head = node;
+        }
+        else{
+            Node *temp = head;
+            node->setNext(temp);
+            head = node;
+            temp->setPrev(node);
+        }
+    }
+
+    void insertEnd(int data){
+        Node *node = new Node(data);
+        if(head == NULL){
+            head = node;
+        }
+        else{
+            Node *temp = head;
+            while(temp->getNext()!=NULL){
+                temp= temp->getNext();
+            }
+            if(temp->getNext()== NULL){
+                temp->setNext(node);
+                node->setPrev(temp);
+                node->setNext(NULL);
+            }
+        }
+    }
+
+    void insertBeforeN(int before, int data){
+        Node *node = new Node(data);
+        if(head == NULL){
+            head = node;
+        }
+        if(head->getData() == before){
+                Node *temp = head;
+                node->setNext(temp);
+                head = node;
+                temp->setPrev(node);
+            }
+        else{
+            Node *temp = head;
+
+            while(temp->getData() != before){
+                temp = temp->getNext();
+                if(temp->getNext() == NULL){
+                    break;
+                }
+
+            }
+            if(temp->getData() == before){
+                node->setNext(temp);
+                temp->getPrev()->setNext(node);
+            }
+        }
+
+    }
+
+    void insertAfter(int after, int data){
+        Node *node = new Node(data);
+        if(head == NULL){
+            head = node;
+        }
+        else{
+            Node *temp = head;
+            while(temp->getData() != after){
+                    temp = temp->getNext();
+
+                if(temp->getData()== after){
+                    node->setNext(temp->getNext());
+                    temp->setNext(node);
+                    node->setPrev(temp);
+                }
+            }
+        }
+    }
+
+    void deletN(int data){
+        if(head == NULL){
+
+        }
+        Node *temp = head;
+        if(head->getData() == data){
+            head = head->getNext();
+        }
+        else{
+                Node *pre = head;
+            while(temp->getData()!= data){
+                    pre = temp;
+                    temp = temp->getNext();
+                if(temp->getNext() == NULL){
+
+                }
+                if(temp->getData() == data){
+                    pre->setNext(temp->getNext());
+                    temp->setNext(NULL);
+                }
+            }
+        }
+    }
+
+    void deleteAfter(int data){
+        if(head == NULL){
+
+        }
+        else{
+            Node *temp = head;
+            while(temp->getData() != data){
+                temp = temp->getNext();
+                if(temp->getNext() == NULL){
+                    break;
+                }
+                if(temp->getData() == data ){
+                    temp->setNext(temp->getNext()->getNext());
+                }
+            }
+
+        }
+    }
+
+    void deleteBefore(int data){
+        if(head == NULL){
+
+        }
+        else{
+            Node *temp = head;
+            while(temp->getData() != data){
+                temp=temp->getNext();
+                if(temp->getNext() == NULL){
+                    break;
+                }
+                if(temp->getNext()->getData() == data){
+                    temp->getPrev()->setNext(temp->getNext());
+                }
+            }
+
+        }
+    }
+    void print(){
+        Node *temp = head;
+        while(temp->getNext() != NULL){
+            cout<<temp->getData()<<"->";
+            temp = temp->getNext();
+        }
+        cout<<temp->getData()<<endl;
+    }
+};
+
+
+int main(){
+    DList d;
+    d.insertBegin(10);
+    d.insertBegin(20);
+    d.insertBegin(30);
+    d.insertBegin(40);
+    d.insertBegin(50);
+    d.print();
+    d.insertEnd(60);
+    d.print();
+    d.insertBeforeN(50, 35);
+    d.print();
+    d.insertAfter(30, 45);
+    d.print();
+    d.insertAfter(60, 65);
+    d.print();
+    d.deletN(65);
+    d.print();
+    d.deleteAfter(60);
+    d.print();
+    d.deleteBefore(50);
+    d.print();
+    return 0;
+}

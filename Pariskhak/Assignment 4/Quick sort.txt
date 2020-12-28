@@ -1,0 +1,55 @@
+#include<iostream>
+using namespace std;
+
+        int quicksort(int X[],int LB,int UB,int n)
+        {       
+            if(LB>=UB)
+            {
+                return 0;
+            }
+            int l=LB,r=UB,J=LB; 
+            int t=X[LB];
+            X[LB]=X[(LB+UB)/2];
+            X[(LB+UB)/2]=t;
+            int pivot=X[LB];
+            
+                for(int i=LB+1;i<=UB;i++)
+                {
+                    if(X[i]<pivot)
+                    {
+                        J++;
+                        t=X[i];
+                        X[i]=X[J];
+                        X[J]=t;
+                    }
+                        
+                }
+                t=X[J];
+               X[J]=X[l];
+               X[l]=t;
+             
+            for(int i=0;i<n;i++)
+             {
+                cout<<X[i]<<" ";
+            }
+               // cout<<"Explanation Sort("<<l<<", "<<r<<"), "<<"pivot-key = "<<pivot<<" "<<"J = "<<J<<endl;
+                cout<<endl;
+            quicksort(X,l,J-1,n);
+            quicksort(X,J+1,r,n);  
+        }
+int main()
+{
+    int n;
+    cin>>n;
+    if(n<=1 || 50<n)
+    {
+        return 0;
+    }
+    int* X=new int[n];
+    for(int j=0;j<n;j++)
+    {  
+        cin>>X[j]; 
+    }
+    quicksort(X,0,n-1,n);
+    return 0;
+}

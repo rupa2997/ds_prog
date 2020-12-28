@@ -1,0 +1,58 @@
+#include<iostream>
+using namespace std;
+
+class SimpleQue{
+    private:
+        int size;
+        int front;
+        int rear;
+        int *store;
+    public:
+        SimpleQue(int data){
+            this->size = size;
+            front = rear = -1;
+            store = new int[size];
+        }
+        ~SimpleQue(){
+            delete [] store;
+        }
+        int isFull(){
+            if(rear == size-1)
+                return 1;
+            return 0;
+        }
+        int isEmpty(){
+            if(rear == front)
+                return 1;
+            return 0;
+        }
+        void enQue(int data){
+            if(!isFull()){
+                    rear++;
+                store[rear] = data;
+            }
+        }
+        int deQue(){
+            if(!isEmpty()){
+                front++;
+                int data = store[front];
+                if(front == rear)
+                    front = rear = -1;
+                return data;
+            }
+        }
+};
+
+int main()
+{
+    SimpleQue q(5);
+    q.enQue(2);
+    q.enQue(3);
+    q.enQue(4);
+    q.enQue(5);
+    cout<<q.deQue()<<endl;
+    cout<<q.deQue()<<endl;
+    cout<<q.deQue()<<endl;
+
+    return 0;
+}

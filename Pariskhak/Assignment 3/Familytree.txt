@@ -1,0 +1,206 @@
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+class Node
+{
+    private:
+        string name;
+        Node* left;
+        Node* right;
+    public:
+        Node(string n)
+        {
+            name=n;
+            left=right=NULL;
+        }
+        string getname()
+        {
+            return name;
+        }
+        Node* getleft()
+        {
+            return left;
+        }
+        Node* getright()
+        {
+            return right;
+        }
+        void setleft(Node* l)
+        {
+            left=l;
+        }
+        void setright(Node* r)
+        {
+            right=r;
+        }
+        
+};
+class Tree
+{
+    private:
+        Node* root;
+        Node* temp1;
+    public:
+        Tree()
+        {
+            root=NULL;
+        }
+        void insertT(string s,int d)
+        {
+            if(root==NULL)
+            {
+                Node* nd=new Node(s);
+                root=nd;
+            }
+            Preorder(root,s);
+            if(d==1)
+            {
+                string s1;
+                cin>>s1;
+                Node* nd=new Node(s1);
+                temp1->setleft(nd);
+                return;
+            }
+            if(d==2)
+            {
+                string s1,s2;
+                cin>>s1>>s2;
+                Node* nd1=new Node(s1);
+                Node* nd2=new Node(s2);
+                temp1->setleft(nd1);
+                temp1->setright(nd2);
+                return;
+            }
+        }               
+        
+       int Preorder(Node* temp, string s)
+       {
+           if(temp==NULL)
+           {
+               return 0;
+           }
+           else{    
+                    if(temp->getname()==s)
+                    {
+                        temp1=temp;
+                        return 0;
+                    }
+                    Preorder(temp->getleft(),s);
+                    Preorder(temp->getright(),s);
+                   return 0;
+                }
+       }
+       
+       void Compare(string s1,string s2)
+       {   
+           Preorder(root,s1);
+           Preorder(temp1,s2);
+           if((temp1->getname()==s2))
+           {
+            cout<<"YES"<<endl;
+            return;
+           }
+           else{
+               cout<<"NO"<<endl;
+               return;
+           }
+           
+           
+       }
+     /*   int Preorder1(Node* temp)
+       {
+           int x;
+           if(temp==NULL)
+           {
+               return 0;
+           }
+           else{                        
+                    cout<<temp->getname()<<"->";
+                    Preorder1(temp->getleft());
+                    Preorder1(temp->getright());
+                  
+                }
+       }    */
+       Node* getroot()
+       {
+           return root;
+       }    
+       
+       
+       
+   
+};
+
+int main()
+{
+    Tree T;
+    int n;
+    string str,str1,str2;
+
+    while(1)
+    {
+        cin>>str;
+        if(str=="END")
+        {
+           break;
+        }
+        cin>>n;
+        T.insertT(str,n);
+    }
+    if(T.getroot()==NULL)
+    {  
+        return 0;
+    }
+  //   T.Preorder1(T.getroot());
+    cin>>n;
+    for(int i=1;i<=n;i++)
+    {
+        cin>>str1>>str2;
+        T.Compare(str1,str2);
+    }
+    return 0;    
+}
+
+
+
+
+
+
+Question==>>
+
+In this problem you have to construct a family tree and answer some queries on that.
+
+The names of each person in the family and his children are given as the input. The number of children is at most 2 (due to strict family planning policies!). Only one parent (mother or father) of the child is given in the input. You have to construct a tree representing the family. The family tree will start from the head of the family. Each person is a node in the tree with his children as the child nodes of that node. If a person has only one child then the child will be the left child of that node. After constructing the family tree, given two persons you have to find whether the first person is an ancestor of the second. X is an ancestor of Y if and only if Y occurs in the subtree rooted at X.
+
+Input is a number of lines followed by the string END. Each line contains a person’s name followed by the number of children he has and their names. Assume that each name consists of at most 20 characters. The order of the input will be in such a way that each person’s (except the root) name will appear, in the children of his parent, before his children is given. (Eg. In the sample input given below, the children of ’Indira’ comes after Indira appears as the child of ’Jawahar’.) This is followed by a number N and N lines of name- pairs. For each pair you have to print YES if the first person is an ancestor of the second person, else print NO. For each pair, the output should be on a separate line.
+
+Hint (Optional): Consider a routine called search which given a tree reference and a name, returns the subtree of the tree given, starting with the name. Eg. search(root, "Indira") should return a reference to the node with label "Indira".
+ 
+Input
+
+Motilal 2 Jawahar Kamala
+
+Jawahar 1 Indira
+
+Indira 2 Sanjay Rajiv
+
+Rajiv 2 Priyanka Rahul
+
+END
+
+3
+
+Motilal Rahul
+
+Kamala Priyanka
+
+Indira Jawahar
+
+Output
+
+YES
+
+NO
+
+NO

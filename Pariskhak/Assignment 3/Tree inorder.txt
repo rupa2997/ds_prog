@@ -1,0 +1,143 @@
+#include<iostream>
+using namespace std;
+int a[10],arr[10],i=0,j=0;
+class Node
+{
+    private:
+        int data;
+        Node* left;
+        Node* right;
+    public:
+        Node(int d)
+        {
+            data=d;
+            left=right=NULL;
+        }
+        int getdata()
+        {
+            return data;
+        }
+        Node* getleft()
+        {
+            return left;
+        }
+        Node* getright()
+        {
+            return right;
+        }
+        void setleft(Node* l)
+        {
+            left=l;
+        }
+        void setright(Node* r)
+        {
+            right=r;
+        }
+        
+};
+class Tree
+{
+    private:
+        Node* root;
+    public:
+        Tree()
+        {
+            root=NULL;
+        }
+        void insertT(int d)
+        {
+            Node* nd=new Node(d);
+            if(root==NULL)
+            {
+                root=nd;
+            }
+            else{
+                    Node* temp=root;
+                    while(1)
+                    {
+                        if(temp->getdata()>=d)
+                        {
+                            if(temp->getleft()==NULL)
+                            {
+                                temp->setleft(nd);
+                                break;
+                            }
+                            temp=temp->getleft();
+                            continue;
+                        }
+                        else{
+                                if(temp->getright()==NULL)
+                                {
+                                    temp->setright(nd);
+                                    break;
+                                }
+                                temp=temp->getright();
+                                continue;
+                        }
+                    }
+            }
+        }
+       int Inorder(Node* temp)
+       {
+           if(temp==NULL)
+           {
+               return 0;
+           }
+           else{
+                Inorder(temp->getleft());
+                a[i]=temp->getdata();
+                i++;
+                Inorder(temp->getright());
+            }
+       }
+       int Preorder(Node* temp)
+       {
+           if(temp==NULL)
+           {
+               return 0;
+           }
+           else{
+                arr[j]=temp->getdata();
+                j++;
+                Preorder(temp->getleft());
+                Preorder(temp->getright());
+            }
+       }
+       Node* getroot()
+       {
+           return root;
+       }
+       int compare(int n)
+       {
+           for(int k=0;k<n;k++)
+           {
+               if(a[k]==arr[k])
+               {
+                   cout<<(k+1)<<" "<<a[k]<<endl;
+               }
+           }
+           return 0;
+       }  
+   
+};
+
+int main()
+{
+    Tree T;
+    int d,n;    
+    while(1)
+     {
+        cin>>d;
+        if(d==-1)
+        {
+           break;
+        }
+           T.insertT(d);
+           n++;
+     }
+     
+     T.Inorder(T.getroot());
+     T.Preorder(T.getroot());
+     T.compare(n);
+    return 0;    
+}
